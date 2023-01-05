@@ -1,46 +1,81 @@
-# Getting Started with Create React App
+# Project
+This take-home project will be based on developing an application for universities to mint they're grades as an SBT.   
+To be more specific; Your application will permit to login a user with it's wallet, choose the university her/his in, fill a form with its personal information and, with a secret key, he'll be able to mint it's degree SBT to her/his wallet.  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To develop this project; Feel free to use the own tech stack you feel more comfortable with.  
+Though, we do recommend:
+  - [![react](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)  
+  - [![typescript](https://img.shields.io/badge/TypeScript-3077C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  - [![django](https://img.shields.io/badge/Django-0B4B33?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
 
-## Available Scripts
+`There will be no penalties for using any other modern frameworks`
 
-In the project directory, you can run:
+## [Specifications][specs]
 
-### `yarn start`
+On [this Figma](https://www.figma.com/file/YwteE14GzkoCSYXvw4CGXT/University-Grades-SBT) there is in detail all of the screens designs. Have in mind that one thing that we check is the ability of developing precisely upon design specifications. The specifications are organized by application screens, each one with its designs and functionalities.  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In the folder `media/` your gonna find all the static files you need.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Login with your wallet
+  <img src="media/Screens/login.jpg" height=400, width=600>
 
-### `yarn test`
+  For this step, you can use industry-standard tools like [MetaMask](https://metamask.io) or [WalletConnect](https://walletconnect.com/).  
+  Keep in mind that if a user already minted its grade, the next time he logs in, he'll be redirected directly to the success page.  
+  No error pages are required in this screen.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Choose your university
+  <img src="media/Screens/choose-university.jpg" height=400, width=600>  
+  
+  The user will be able to choose between different universities that are **provided from the backend**. Each one will contain a unique secret key that will permit later minting degrees SBTs.  
+  You will be responsible of generating this universities on the DB.  
+  Feel free of searching the university pictures on the internet.
 
-### `yarn build`
+3. Fill your personal information
+  <img src="media/Screens/fill-information.jpg" height=400, width=600> 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  The user will be able to fill its personal information to later customize the SBT metadata.  
+  The grades will be a dropdown of the different grades available **provided by the backend**.  
+  You will be responsible of generating this grades on the DB. We recommend to atleast generate 5.  
+  The grades are not related to a university.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Minting page
+  <img src="media/Screens/mint.jpg" height=400, width=600> 
+  In this page the SBT will be previewed and it will be prompted an input to send the university secret key.  
+  Until the user do not prompt the correct secret key, the minting button will be disabled and he will not mint the SBT.  
+  We are aware that the secret key will be unique per university, and everyone who could have the secret key is gonna be able to mint as much degrees as she/he wants to, but since this is just a sample project, security is irrelevant.
+  
+  Since the SouldBound Token (SBT) is still a concept in development (proposed by [Vitalik Buterin](https://vitalik.ca/general/2022/01/26/soulbound.html) in this post) and it doesn't have any official ERC standard implementation: We refeer to an SBT as `any token non-transerrable once minted`.  
+  The implementation of this restriction is totally up to you.  
+  The SBT will have a custom metadata based on the User preferences as the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ```json
+  {
+    "image": "<the-url-of:media/SBT Image/SBT University image.png uploaded>"
+    "name": "Your university degree"
+    "description": "This SBT is a validation of your university degree"
+    "attributes": [
+      {
+        "trait_type": "Degree",
+        "value": "<user degree>"
+      },
+      {
+        "trait_type": "Name",
+        "value": "<user name>"
+      },
+      {
+        "trait_type": "Last name",
+        "value": "<user last name>"
+      }
+    ]
+  }
+  ```
+  
+  If the selected network is not `Mumbai`, an error popup will appear:
+    
+  <img src="media/Screens/error-popup.jpg" height=400, width=600>  
+  
+5. Success page
+  <img src="media/Screens/sbt-success.jpg" height=400, width=600> 
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+  The success page will show the minted SBT with a redirection link to the SBT on [OpenSea](https://opensea.io/).
+  
